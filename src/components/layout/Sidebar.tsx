@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { Home, PieChart, Fuel, Settings, ListPlus, Wallet } from 'lucide-react';
 import { cn } from '@/utils/cn';
+import { useAuthStore } from '@/store/useAuthStore';
 
 const NAV_ITEMS = [
   { icon: Home, label: 'Expenses', path: '/' },
@@ -11,6 +12,8 @@ const NAV_ITEMS = [
 ];
 
 export default function Sidebar() {
+  const { user } = useAuthStore();
+  
   return (
     <aside className="hidden md:flex w-64 flex-col h-screen sticky top-0 bg-white/80 backdrop-blur-xl border-r border-white shadow-[var(--shadow-soft)] z-40 p-5">
       
@@ -52,13 +55,13 @@ export default function Sidebar() {
       {/* Desktop Profile Card */}
       <div className="mt-auto glass-card rounded-[20px] p-3 flex items-center space-x-3 cursor-pointer hover:scale-[1.02] transition-transform">
         <img 
-          src="https://i.pravatar.cc/150?img=11" 
+          src={user?.photoURL || `https://ui-avatars.com/api/?name=${user?.displayName || 'User'}`} 
           alt="Profile" 
           className="w-9 h-9 rounded-full border-[1.5px] border-white object-cover shadow-sm"
         />
-        <div>
-          <h3 className="font-bold text-[13px] text-[var(--text-color)]">Prasad</h3>
-          <p className="text-[10px] font-semibold text-[var(--text-muted)]">Pro Member</p>
+        <div className="overflow-hidden">
+          <h3 className="font-bold text-[13px] text-[var(--text-color)] truncate">{user?.displayName || 'User'}</h3>
+          <p className="text-[10px] font-semibold text-[var(--text-muted)] truncate">{user?.email || 'Logged out'}</p>
         </div>
       </div>
     </aside>

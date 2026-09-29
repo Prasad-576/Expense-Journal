@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useExpenseStore } from '@/store/useExpenseStore';
-import type { Category } from '@/types';
-import { CATEGORIES } from '@/data/mockData';
+import { CATEGORIES, type Category } from '@/types';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';

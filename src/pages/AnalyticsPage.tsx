@@ -3,7 +3,7 @@ import { Card, CardContent } from '@/components/ui/Card';
 import { AreaChart, Area, XAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie, Legend } from 'recharts';
 import { format, parseISO, startOfWeek, addDays, isSameDay, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isToday } from 'date-fns';
 import { useMemo, useState } from 'react';
-import { CATEGORIES } from '@/data/mockData';
+import { CATEGORIES } from '@/types';
 import { Lightbulb, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/utils/cn';

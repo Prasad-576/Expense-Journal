@@ -1,4 +1,5 @@
 export type Category = '🍔 Food' | '⛽ Petrol' | '🛒 Shopping' | '🎓 College' | '💡 Utilities' | '🎉 Entertainment';
+export const CATEGORIES: Category[] = ['🍔 Food', '⛽ Petrol', '🛒 Shopping', '🎓 College', '💡 Utilities', '🎉 Entertainment'];
 
 export interface Expense {
   id: string;
