@@ -1,8 +1,12 @@
 import { useExpenseStore } from '@/store/useExpenseStore';
 import { Card, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
-import { Download, FileText, ShieldAlert, Globe, Moon, Sun } from 'lucide-react';
+import { Download, FileText, ShieldAlert, Globe, Moon, Sun, LogIn } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useAuthStore } from '@/store/useAuthStore';
+import { auth } from '@/lib/firebase';
+import { signOut } from 'firebase/auth';
 
 const CURRENCIES = [
   { code: 'INR', symbol: '₹', name: 'Indian Rupee' },
@@ -13,12 +17,23 @@ const CURRENCIES = [
 
 export default function SettingsPage() {
   const { settings, updateSettings } = useExpenseStore();
+  const { user, isAuthenticated } = useAuthStore();
+  const navigate = useNavigate();
   const [currency, setCurrency] = useState(settings.currency);
   const [theme, setTheme] = useState('light');
 
   const handleSave = () => {
     updateSettings({ currency });
     alert('Settings saved successfully!');
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate('/login');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
   };
 
   return (
@@ -32,18 +47,35 @@ export default function SettingsPage() {
 
       <div className="space-y-6">
         
-        {/* Profile Card */}
-        <div className="glass-card p-5 rounded-[24px] flex items-center space-x-4">
-          <img 
-            src="https://i.pravatar.cc/150?img=11" 
-            alt="Profile" 
-            className="w-14 h-14 rounded-full border-[3px] border-white shadow-sm object-cover"
-          />
-          <div>
-            <h2 className="text-xl font-extrabold text-[var(--text-color)]">Prasad</h2>
-            <p className="text-sm font-semibold text-[var(--text-muted)] mt-0.5">Pro Member</p>
+        {isAuthenticated && user ? (
+          <div className="glass-card p-5 rounded-[24px] flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <img 
+                src={user.photoURL || `https://ui-avatars.com/api/?name=${user.displayName || 'User'}`} 
+                alt="Profile" 
+                className="w-14 h-14 rounded-full border-[3px] border-white shadow-sm object-cover"
+              />
+              <div>
+                <h2 className="text-xl font-extrabold text-[var(--text-color)]">{user.displayName || 'User'}</h2>
+                <p className="text-sm font-semibold text-[var(--text-muted)] mt-0.5">{user.email}</p>
+              </div>
+            </div>
+            <Button onClick={handleLogout} variant="outline" className="px-5 rounded-[16px] text-[var(--danger)] hover:bg-[var(--danger)]/10">
+              Logout
+            </Button>
           </div>
-        </div>
+        ) : (
+          <div className="glass-card p-5 rounded-[24px] flex items-center justify-between">
+            <div>
+              <h2 className="text-xl font-extrabold text-[var(--text-color)]">Account</h2>
+              <p className="text-sm font-semibold text-[var(--text-muted)] mt-0.5">Login to sync your data</p>
+            </div>
+            <Button onClick={() => navigate('/login')} className="px-6 rounded-[16px] shadow-[var(--shadow-float)]">
+              <LogIn size={18} className="mr-2" strokeWidth={2.5} />
+              Login
+            </Button>
+          </div>
+        )}
 
         {/* Currency Setting */}
         <div className="glass-card p-5 rounded-[24px]">

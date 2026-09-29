@@ -3,10 +3,9 @@ import { useExpenseStore } from '@/store/useExpenseStore';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { CATEGORIES } from '@/data/mockData';
+import { CATEGORIES, type Category } from '@/types';
 import { format, parseISO, isToday, isYesterday } from 'date-fns';
 import { ArrowDownRight } from 'lucide-react';
-import type { Category } from '@/types';
 
 export default function DashboardPage() {
   const { expenses, settings, addExpense } = useExpenseStore();

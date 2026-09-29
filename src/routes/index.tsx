@@ -5,8 +5,13 @@ import ExpensesPage from '@/pages/ExpensesPage';
 import AnalyticsPage from '@/pages/AnalyticsPage';
 import PetrolPage from '@/pages/PetrolPage';
 import SettingsPage from '@/pages/SettingsPage';
+import LoginPage from '@/pages/LoginPage';
 
 export const router = createBrowserRouter([
+  {
+    path: '/login',
+    element: <LoginPage />,
+  },
   {
     path: '/',
     element: <MainLayout />,

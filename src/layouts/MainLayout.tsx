@@ -2,8 +2,11 @@ import { Outlet } from 'react-router-dom';
 import Sidebar from '@/components/layout/Sidebar';
 import BottomNav from '@/components/layout/BottomNav';
 import { Bell } from 'lucide-react';
+import { useAuthStore } from '@/store/useAuthStore';
 
 export function MainLayout() {
+  const { user } = useAuthStore();
+  
   return (
     <div className="min-h-screen bg-[var(--background)] flex">
       {/* Sidebar for Desktop */}
@@ -16,7 +19,7 @@ export function MainLayout() {
           <div className="flex items-center space-x-4">
             <div className="relative">
               <img 
-                src="https://i.pravatar.cc/150?img=11" 
+                src={user?.photoURL || `https://ui-avatars.com/api/?name=${user?.displayName || 'User'}`}
                 alt="Profile" 
                 className="w-11 h-11 rounded-full border-2 border-white shadow-[var(--shadow-soft)] object-cover"
               />
@@ -24,7 +27,7 @@ export function MainLayout() {
             </div>
             <div>
               <h2 className="text-[20px] font-extrabold text-[var(--text-color)] tracking-tight">
-                Hi, Prasad <span className="inline-block animate-wave">👋</span>
+                Hi, {user?.displayName ? user.displayName.split(' ')[0] : 'User'} <span className="inline-block animate-wave">👋</span>
               </h2>
               <p className="text-[13px] font-bold text-[var(--text-muted)] uppercase tracking-widest mt-0.5">
                 Track. Manage. Save.
