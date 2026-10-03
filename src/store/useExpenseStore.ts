@@ -94,46 +94,52 @@ export const useExpenseStore = create<ExpenseState>((set, get) => ({
   },
 
   addExpense: async (expenseData) => {
-    const uid = useAuthStore.getState().user?.uid;
-    if (!uid) return;
-    const expensesRef = collection(db, `users/${uid}/transactions`);
+    const user = useAuthStore.getState().user;
+    const identifier = user?.email || user?.uid;
+    if (!identifier) return;
+    const expensesRef = collection(db, `users/${identifier}/transactions`);
     const newDocRef = doc(expensesRef);
     await setDoc(newDocRef, { ...expenseData, id: newDocRef.id });
   },
   
   updateExpense: async (id, updatedData) => {
-    const uid = useAuthStore.getState().user?.uid;
-    if (!uid) return;
-    const expenseRef = doc(db, `users/${uid}/transactions/${id}`);
+    const user = useAuthStore.getState().user;
+    const identifier = user?.email || user?.uid;
+    if (!identifier) return;
+    const expenseRef = doc(db, `users/${identifier}/transactions/${id}`);
     await updateDoc(expenseRef, updatedData);
   },
   
   deleteExpense: async (id) => {
-    const uid = useAuthStore.getState().user?.uid;
-    if (!uid) return;
-    const expenseRef = doc(db, `users/${uid}/transactions/${id}`);
+    const user = useAuthStore.getState().user;
+    const identifier = user?.email || user?.uid;
+    if (!identifier) return;
+    const expenseRef = doc(db, `users/${identifier}/transactions/${id}`);
     await deleteDoc(expenseRef);
   },
   
   updateSettings: async (newSettings) => {
-    const uid = useAuthStore.getState().user?.uid;
-    if (!uid) return;
-    const settingsRef = doc(db, `users/${uid}/settings/preferences`);
+    const user = useAuthStore.getState().user;
+    const identifier = user?.email || user?.uid;
+    if (!identifier) return;
+    const settingsRef = doc(db, `users/${identifier}/settings/preferences`);
     await updateDoc(settingsRef, newSettings);
   },
   
   addQuickExpense: async (expenseData) => {
-    const uid = useAuthStore.getState().user?.uid;
-    if (!uid) return;
-    const quickExpensesRef = collection(db, `users/${uid}/quickExpenses`);
+    const user = useAuthStore.getState().user;
+    const identifier = user?.email || user?.uid;
+    if (!identifier) return;
+    const quickExpensesRef = collection(db, `users/${identifier}/quickExpenses`);
     const newDocRef = doc(quickExpensesRef);
     await setDoc(newDocRef, { ...expenseData, id: newDocRef.id });
   },
   
   deleteQuickExpense: async (id) => {
-    const uid = useAuthStore.getState().user?.uid;
-    if (!uid) return;
-    const quickExpenseRef = doc(db, `users/${uid}/quickExpenses/${id}`);
+    const user = useAuthStore.getState().user;
+    const identifier = user?.email || user?.uid;
+    if (!identifier) return;
+    const quickExpenseRef = doc(db, `users/${identifier}/quickExpenses/${id}`);
     await deleteDoc(quickExpenseRef);
   }
 }));

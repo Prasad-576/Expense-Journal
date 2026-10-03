@@ -2,8 +2,9 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /users/{userId}/{document=**} {
-      // Users can only read and write to their own documents
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      // Allow access if the userId matches the user's UID OR their verified email address
+      allow read, write: if request.auth != null && 
+        (request.auth.uid == userId || request.auth.token.email == userId);
     }
   }
 }

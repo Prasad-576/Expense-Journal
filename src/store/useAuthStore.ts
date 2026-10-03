@@ -22,7 +22,9 @@ export const useAuthStore = create<AuthState>((set) => ({
         isAuthLoading: false,
       });
       if (user) {
-        useExpenseStore.getState().initData(user.uid);
+        // Use email for data isolation to match the existing database structure
+        const identifier = user.email || user.uid;
+        useExpenseStore.getState().initData(identifier);
       } else {
         useExpenseStore.getState().clearData();
       }
